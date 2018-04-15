@@ -1,8 +1,11 @@
-// canvas size
-const canvas = {
+// canvasBoundary size
+const canvasBoundary = {
     w: 500,
     h: 500
 };
+
+// enemy-player vertical alignment correction factor
+const c = 10;
 
 // Enemies our player must avoid
 var Enemy = function(x, y) {
@@ -29,12 +32,17 @@ Enemy.prototype.update = function(dt) {
     this.x += this.s * dt;
 
     // reset the enemy's position and speed if it reached the end of the track
-    if (this.x > canvas.w) {
+    if (this.x > canvasBoundary.w) {
         this.x = -100;
         this.s = 100 + Math.floor(Math.random() * 300);
     };
 
-    // TODO detect collision
+    //detect collision 
+    if (this.x > player.x && this.x < player.x + player.w) {
+        if (this.y > player.y - c && this.y < player.y + player.h - c) {
+            player.resetPlayer();
+        };
+    };
 };
 
 // Draw the enemy on the screen, required method for game
@@ -53,7 +61,7 @@ class Player {
         this.y = y;
         this.y0 = y;
         this.w = 100;
-        this.h = 80;
+        this.h = 100;
     }
 
     //render the player
@@ -65,7 +73,10 @@ class Player {
     update() {}
 
     // bring the player to the start position
-    homingPlayer() {}
+    resetPlayer() {
+        this.x = 200;
+        this.y = 350;
+    }
 
     // move the player using the keyboard's arrow keys
     handleInput (key) {
@@ -76,17 +87,20 @@ class Player {
                 }; 
                 break;
             case 'right': 
-                if(this.x < canvas.w - this.w) {
+                if(this.x < canvasBoundary.w - this.w) {
                     this.x += + this.w;
                 }; 
                 break;
             case 'up': 
-                if(this.y > 0) {
+                // if the player crossed already, reset the game
+                if (this.y < 40+c) {
+                    this.resetPlayer();
+                } else if (this.y > 0) {
                     this.y += - this.h;
                 };
                 break;
             case 'down': 
-                if(this.y < 390) {
+                if(this.y < 350) {
                     this.y += + this.h;
                 };
                 break;
@@ -98,12 +112,12 @@ class Player {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-const enemy1 = new Enemy(-140, 60);
-const enemy2 = new Enemy(-190, 145); 
-const enemy3 = new Enemy(-230, 230);
+const enemy1 = new Enemy(-140, 50);
+const enemy2 = new Enemy(-190, 150); 
+const enemy3 = new Enemy(-230, 250);
 const allEnemies = [enemy1, enemy2, enemy3];
 
-const player = new Player(200, 390);
+const player = new Player(200, 350);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
