@@ -1,3 +1,9 @@
+// canvas size
+const canvas = {
+    w: 500,
+    h: 500
+};
+
 // Enemies our player must avoid
 var Enemy = function(x, y) {
     // Variables applied to each of our instances go here,
@@ -23,7 +29,7 @@ Enemy.prototype.update = function(dt) {
     this.x += this.s * dt;
 
     // reset the enemy's position and speed if it reached the end of the track
-    if (this.x > 500) {
+    if (this.x > canvas.w) {
         this.x = -100;
         this.s = 100 + Math.floor(Math.random() * 300);
     };
@@ -50,21 +56,42 @@ class Player {
         this.h = 80;
     }
 
+    //render the player
     render () {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
-    update() {
+    // update the player's position using the game's engine
+    update() {}
 
-    }
+    // bring the player to the start position
+    homingPlayer() {}
 
-    homingPlayer() {
-
-    }
-
-    handleInput () {
-
-    }
+    // move the player using the keyboard's arrow keys
+    handleInput (key) {
+        switch (key) {
+            case 'left': 
+                if(this.x > 0) {
+                    this.x += - this.w;
+                }; 
+                break;
+            case 'right': 
+                if(this.x < canvas.w - this.w) {
+                    this.x += + this.w;
+                }; 
+                break;
+            case 'up': 
+                if(this.y > 0) {
+                    this.y += - this.h;
+                };
+                break;
+            case 'down': 
+                if(this.y < 390) {
+                    this.y += + this.h;
+                };
+                break;
+        };
+    };
 };
 
 // Now instantiate your objects.
