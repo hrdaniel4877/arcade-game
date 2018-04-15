@@ -94,6 +94,7 @@ class Player {
             case 'up': 
                 // if the player crossed already, reset the game
                 if (this.y < 40+c) {
+                    alert('Congratulations, you won the Game! \nPress ENTER to start again!');
                     this.resetPlayer();
                 } else if (this.y > 0) {
                     this.y += - this.h;
