@@ -1,3 +1,5 @@
+'use strict'
+
 // canvasBoundary size
 const canvasBoundary = {
     w: 500,
@@ -37,6 +39,13 @@ Enemy.prototype.update = function(dt) {
         this.s = 100 + Math.floor(Math.random() * 300);
     };
 
+    /* Winning alert
+    if (player.y < 1) {
+        alert('Congratulations, you won the Game! \nPress ENTER to start again!'); 
+        player.resetPlayer();
+    };
+    */
+
     //detect collision 
     if (this.x > player.x && this.x < player.x + player.w) {
         if (this.y > player.y - c && this.y < player.y + player.h - c) {
@@ -55,7 +64,7 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 class Player {
     constructor(x, y) {
-        this.sprite = 'images/char-boy.png'
+        this.sprite = 'images/char-boy.png';
         this.x = x;
         this.x0 = x;
         this.y = y;
@@ -91,12 +100,8 @@ class Player {
                     this.x += + this.w;
                 }; 
                 break;
-            case 'up': 
-                // if the player crossed already, reset the game
-                if (this.y < 40+c) {
-                    alert('Congratulations, you won the Game! \nPress ENTER to start again!');
-                    this.resetPlayer();
-                } else if (this.y > 0) {
+            case 'up':                 
+                if (this.y > 0) {
                     this.y += - this.h;
                 };
                 break;
@@ -106,6 +111,14 @@ class Player {
                 };
                 break;
         };
+        
+        // if the player crossed already, reset the game
+        if (this.y < 40+c) {
+            setTimeout(function(){
+                alert('Congratulations, you won the Game! \nPress ENTER to start again!');
+                player.resetPlayer();    
+            }, 300);
+        };        
     };
 };
 

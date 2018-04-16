@@ -39,3 +39,7 @@ Once crossed in the top blue area, the player is safe again.
 One more Up Arrow Key press will reset the game.
 The player can also choose to cross back the road, to the green area without resetting the game. 
 
+
+### Live Link
+A live link to the GitHub hosted page can be found [here](https://hrdaniel4877.github.io/arcade-game/)
+
